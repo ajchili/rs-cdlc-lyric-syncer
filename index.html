@@ -1,304 +1,527 @@
 <!DOCTYPE html>
 <html class="uk-background-muted">
-
-<head>
+  <head>
     <title>Better UltraStar-Creator</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css"
+    />
 
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit-icons.min.js"></script>
-</head>
+  </head>
 
-<body style="width: 100%; min-height: 100vh; height: 100vh;">
-    <button id="toggleView" class="uk-button uk-button-primary"
-        style="position: absolute; top: 0px; right: 0px; z-index: 1000;">Switch
-        View</button>
-    <div id="main" style="display: flex; flex-direction: column; width: 100%; height: 100%;">
-        <div class="uk-margin-top">
-            <div class="uk-container">
-                <h1 class="uk-heading-medium">Song</h1>
-                <form class="uk-form-horizontal">
-                    <div class="uk-margin">
-                        <label class="uk-form-label">Title</label>
-                        <div class="uk-form-controls">
-                            <input id="title" class="uk-input" type="text" placeholder="Title">
-                        </div>
-                    </div>
-                    <div class="uk-margin">
-                        <label class="uk-form-label">Artist</label>
-                        <div class="uk-form-controls">
-                            <input id="artist" class="uk-input" type="text" placeholder="Artist">
-                        </div>
-                    </div>
-                    <div class="uk-margin">
-                        <label class="uk-form-label">BPM</label>
-                        <div class="uk-form-controls">
-                            <input id="bpm" class="uk-input" type="number" min="0" placeholder="100">
-                        </div>
-                    </div>
-                    <div class="uk-margin">
-                        <div class="uk-form-label">Song</div>
-                        <div class="uk-form-controls">
-                            <input id="audioInput" class="uk-input" type="file" accept="audio/*">
-                        </div>
-                    </div>
-                </form>
+  <body style="width: 100%; min-height: 100vh; height: 100vh">
+    <button
+      id="toggleView"
+      class="uk-button uk-button-primary"
+      style="position: absolute; top: 0px; right: 0px; z-index: 1000"
+    >
+      Switch View
+    </button>
+    <div
+      id="main"
+      style="display: flex; flex-direction: column; width: 100%; height: 100%"
+    >
+      <div class="uk-margin-top">
+        <div class="uk-container">
+          <h1 class="uk-heading-medium">Song</h1>
+          <form class="uk-form-horizontal">
+            <div class="uk-margin">
+              <label class="uk-form-label">Title</label>
+              <div class="uk-form-controls">
+                <input
+                  id="title"
+                  class="uk-input"
+                  type="text"
+                  placeholder="Title"
+                />
+              </div>
             </div>
-        </div>
-        <div style="flex: 1; display: flex;" class="uk-margin-top uk-margin-bottom">
-            <div class="uk-container" style="flex: 1; display: flex; flex-direction: column;">
-                <h1 class="uk-heading-medium">Lyrics</h1>
-                <div class="uk-child-width-expand" style="flex: 1; display: flex;" uk-grid>
-                    <div style="flex: 1; display: flex;">
-                        <div style="flex: 1; display: flex;" class="uk-card uk-card-default uk-card-body">
-                            <textarea id="lyrics" style="flex: 1; display: flex;" placeholder="Lyrics"></textarea>
-                        </div>
-                    </div>
-                    <div style="flex: 1; display: flex;">
-                        <div style="flex: 1; display: flex;" class="uk-card uk-card-default uk-card-body">
-                            <textarea id="output" style="flex: 1; display: flex;" placeholder="Output"
-                                readonly></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="uk-card uk-card-default uk-card-body uk-margin-top">
-                    <audio id="audio" style="width: 100%;" controls></audio>
-                </div>
+            <div class="uk-margin">
+              <label class="uk-form-label">Artist</label>
+              <div class="uk-form-controls">
+                <input
+                  id="artist"
+                  class="uk-input"
+                  type="text"
+                  placeholder="Artist"
+                />
+              </div>
             </div>
+            <div class="uk-margin">
+              <label class="uk-form-label">BPM</label>
+              <div class="uk-form-controls">
+                <input
+                  id="bpm"
+                  class="uk-input"
+                  type="number"
+                  min="0"
+                  placeholder="100"
+                />
+              </div>
+            </div>
+            <div class="uk-margin">
+              <div class="uk-form-label">Song</div>
+              <div class="uk-form-controls">
+                <input
+                  id="audioInput"
+                  class="uk-input"
+                  type="file"
+                  accept="audio/*"
+                />
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
+      <div
+        style="flex: 1; display: flex"
+        class="uk-margin-top uk-margin-bottom"
+      >
+        <div
+          class="uk-container"
+          style="flex: 1; display: flex; flex-direction: column"
+        >
+          <h1 class="uk-heading-medium">Lyrics</h1>
+          <div
+            class="uk-child-width-expand"
+            style="flex: 1; display: flex"
+            uk-grid
+          >
+            <div style="flex: 1; display: flex">
+              <div
+                style="flex: 1; display: flex"
+                class="uk-card uk-card-default uk-card-body"
+              >
+                <textarea
+                  id="lyrics"
+                  style="flex: 1; display: flex"
+                  placeholder="Lyrics"
+                ></textarea>
+              </div>
+            </div>
+            <div style="flex: 1; display: flex">
+              <div
+                style="flex: 1; display: flex"
+                class="uk-card uk-card-default uk-card-body"
+              >
+                <textarea
+                  id="output"
+                  style="flex: 1; display: flex"
+                  placeholder="Output"
+                  readonly
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+            <audio id="audio" style="width: 100%" controls></audio>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="details" style="display: flex; flex-direction: column; width: 100%;" hidden>
-        <div id="playbackHead" style="position: absolute; width: 100%; height: 0px; border-bottom: 1px dashed green;">
-            <span id="playbackHeadPos" class="uk-label uk-label-success">00:00:00</span>
-        </div>
-        <div id="cursor" style="position: absolute; width: 100%; height: 0px; border-bottom: 1px dashed red;">
-            <span id="cursorPos" class="uk-label uk-label-danger">00:00:00</span>
-        </div>
+    <div
+      id="details"
+      style="display: flex; flex-direction: column; width: 100%"
+      hidden
+    >
+      <div
+        id="playbackHead"
+        style="
+          position: absolute;
+          width: 100%;
+          height: 0px;
+          border-bottom: 1px dashed green;
+        "
+      >
+        <span id="playbackHeadPos" class="uk-label uk-label-success"
+          >00:00:00</span
+        >
+      </div>
+      <div
+        id="cursor"
+        style="
+          position: absolute;
+          width: 100%;
+          height: 0px;
+          border-bottom: 1px dashed red;
+        "
+      >
+        <span id="cursorPos" class="uk-label uk-label-danger">00:00:00</span>
+      </div>
     </div>
     <script>
-        const main = document.querySelector('div#main');
-        const details = document.querySelector('div#details');
+      const main = document.querySelector('div#main');
+      const details = document.querySelector('div#details');
 
-        const audio = document.querySelector('audio#audio');
+      const audio = document.querySelector('audio#audio');
 
-        const viewToggleButton = document.querySelector('button#toggleView');
+      const viewToggleButton = document.querySelector('button#toggleView');
 
-        const audioInput = document.querySelector('input#audioInput');
-        const artistInput = document.querySelector('input#artist');
-        const bpmInput = document.querySelector('input#bpm');
-        const titleInput = document.querySelector('input#title');
+      const audioInput = document.querySelector('input#audioInput');
+      const artistInput = document.querySelector('input#artist');
+      const bpmInput = document.querySelector('input#bpm');
+      const titleInput = document.querySelector('input#title');
 
-        const lyricsTextArea = document.querySelector('textarea#lyrics');
-        const outputTextArea = document.querySelector('textarea#output');
+      const lyricsTextArea = document.querySelector('textarea#lyrics');
+      const outputTextArea = document.querySelector('textarea#output');
 
-        const cursor = document.querySelector('div#cursor');
-        const cursorPos = document.querySelector('span#cursorPos');
-        const playbackHead = document.querySelector('div#playbackHead');
-        const playbackHeadPos = document.querySelector('span#playbackHeadPos');
+      const cursor = document.querySelector('div#cursor');
+      const cursorPos = document.querySelector('span#cursorPos');
+      const playbackHead = document.querySelector('div#playbackHead');
+      const playbackHeadPos = document.querySelector('span#playbackHeadPos');
 
-        const data = {
-            artist: '',
-            bpm: 120,
-            mp3: '',
-            title: '',
-            duration: 0
-        };
+      const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'violet'];
 
-        let lyrics = [];
+      const data = {
+        artist: '',
+        bpm: 0,
+        mp3: '',
+        title: '',
+        duration: 0,
+      };
 
-        document.addEventListener('mousemove', (e) => {
-            e.preventDefault();
-            if (data.duration <= 0) {
-                return;
-            }
-            const pos = window.pageYOffset + e.clientY;
-            cursor.style.top = `${pos}px`;
-            const relativePos = pos / details.scrollHeight;
-            const timePos = data.duration * relativePos;
-            const cursorMili = Math.floor(timePos % 1000);
-            const cursorSecs = Math.floor(timePos / 1000) % 60;
-            const cursorMins = Math.floor(timePos / 1000 / 60);
-            cursorPos.innerText = `${cursorMins > 9 ? cursorMins : `0${cursorMins}`}:${cursorSecs > 9 ? cursorSecs : `0${cursorSecs}`}:${cursorMili}`;
-        });
+      let lyrics = [];
 
-        document.addEventListener('scroll', () => {
-            viewToggleButton.style.top = `${window.pageYOffset}px`;
-        });
-
-        const updatePlaybackHeadPos = () => {
-            const time = audio.currentTime * 1000;
-            const pos = time / data.duration * details.clientHeight;
-            playbackHead.style.top = `${pos}px`;
-            const relativePos = pos / details.scrollHeight;
-            const cursorMili = Math.floor(time % 1000);
-            const cursorSecs = Math.floor(time / 1000) % 60;
-            const cursorMins = Math.floor(time / 1000 / 60);
-            playbackHeadPos.innerText = `${cursorMins > 9 ? cursorMins : `0${cursorMins}`}:${cursorSecs > 9 ? cursorSecs : `0${cursorSecs}`}:${cursorMili}`;
-        };
-
-        ['seeking', 'timeupdate'].forEach(event => audio.addEventListener(event, updatePlaybackHeadPos));
-
-        audio.addEventListener('durationchange', () => {
-            data.duration = audio.duration * 1000;
-            drawboard(audio.duration);
-            updateOutput();
-        });
-
-        const toggleView = () => {
-            if (main.hidden) {
-                main.hidden = false;
-                details.hidden = true;
-            } else {
-                main.hidden = true;
-                details.hidden = false;
-                updatePlaybackHeadPos();
-                drawLyrics(lyrics);
-            }
-        };
-
-        viewToggleButton.addEventListener('click', toggleView)
-
-        audioInput.addEventListener('change', () => {
-            const file = audioInput.files[0];
-            data.mp3 = file.name;
-            audio.setAttribute('src', URL.createObjectURL(file));
-            audio.setAttribute('type', file.type);
-            audio.load();
-        });
-
-        artistInput.addEventListener('input', (e) => {
-            e.stopPropagation();
-            data.artist = e.target.value;
-            updateOutput();
-        });
-
-        ['input', 'change'].forEach(event => {
-            bpmInput.addEventListener(event, (e) => {
-                e.stopPropagation();
-                data.bpm = parseInt(e.target.value, 10);
-                updateOutput();
-            });
-        });
-
-        titleInput.addEventListener('input', (e) => {
-            e.stopPropagation();
-            data.title = e.target.value;
-            updateOutput();
-        });
-
-        lyricsTextArea.addEventListener('input', (e) => {
-            e.stopPropagation();
-            const lines = e.target.value.split('\n');
-            lyrics = lines.filter(line => line.trim().length > 0).map((line, i) => {
-                return {
-                    lyrics: line.split(' ').map((word, i) => {
-                        return {
-                            word,
-                            pos: i * 100
-                        }
-                    }),
-                    pos: i * 1000
-                };
-            });
-            updateOutput();
-            if (data.duration) {
-                drawLyrics(lyrics);
-            }
-        });
-
-        const updateOutput = () => {
-            const textContent = [
-                `#TITLE:${data.title}`,
-                `#ARTIST:${data.artist}`,
-                `#BPM:${data.bpm}`
-            ];
-            outputTextArea.textContent = textContent.join('\n');
-        };
-
-        const drawboard = (duration = 0) => {
-            document.querySelectorAll('div#secondBoard').forEach(element => {
-                details.removeChild(element);
-            });
-            for (let i = 0; i < Math.ceil(duration); i++) {
-                const minutes = Math.floor(i / 60);
-                const seconds = i - (minutes * 60);
-                const secondBoard = document.createElement('div');
-                secondBoard.id = 'secondBoard';
-                secondBoard.style.backgroundColor = 'white';
-                secondBoard.style.display = 'flex';
-                secondBoard.style.width = '100%';
-                secondBoard.style.height = '40vh';
-                const label = document.createElement('div');
-                label.style.width = '10%';
-                label.style.height = '100%';
-                const timeSpan = document.createElement('span');
-                timeSpan.classList = 'uk-label uk-label-default';
-                timeSpan.innerText = `${minutes > 9 ? minutes : `0${minutes}`}:${seconds > 9 ? seconds : `0${seconds}`}:00`;
-                label.appendChild(timeSpan);
-                secondBoard.append(label);
-                const dividerList = document.createElement('div');
-                dividerList.style.width = '90%';
-                dividerList.style.height = '100%';
-                for (let i = 0; i < 10; i++) {
-                    const divider = document.createElement('div');
-                    divider.style.width = '100%';
-                    divider.style.height = 'calc(10% - 1px)';
-                    divider.style.borderBottom = '1px dashed #3c3c3c';
-                    dividerList.append(divider);
-                }
-                secondBoard.append(dividerList);
-                details.appendChild(secondBoard);
-            }
-        };
-
-        let selectedElement, clickOffset;
-
-        const drawLyrics = () => {
-            document.querySelectorAll('div#lyricsWrapper').forEach(element => {
-                details.removeChild(element);
-            });
-            lyrics.forEach((line, i) => {
-                const lyricsLine = document.createElement('div');
-                lyricsLine.id = 'lyricsWrapper';
-                lyricsLine.style.border = '1px dashed blue';
-                lyricsLine.style.marginLeft = '10%';
-                lyricsLine.style.position = 'absolute';
-                lyricsLine.style.top = `${details.clientHeight * (line.pos / data.duration)}px`;
-                line.lyrics.forEach((lyric, j) => {
-                    const lyricsWord = document.createElement('p');
-                    lyricsWord.innerText = lyric.word;
-                    lyricsWord.style.marginTop = `${details.clientHeight * (lyric.pos / data.duration)}px`;
-                    lyricsWord.addEventListener("mousedown", (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        selectedElement = [i, j];
-                        clickOffset = [e.layerX, e.layerY];
-                    });
-                    lyricsLine.appendChild(lyricsWord);
-                });
-                details.appendChild(lyricsLine);
-            });
+      document.addEventListener('mousemove', (e) => {
+        e.preventDefault();
+        if (data.duration <= 0) {
+          return;
         }
+        const pos = window.pageYOffset + e.clientY;
+        cursor.style.top = `${pos}px`;
+        const relativePos = pos / details.scrollHeight;
+        const timePos = data.duration * relativePos;
+        const cursorMili = Math.floor(timePos % 1000);
+        const cursorSecs = Math.floor(timePos / 1000) % 60;
+        const cursorMins = Math.floor(timePos / 1000 / 60);
+        cursorPos.innerText = `${
+          cursorMins > 9 ? cursorMins : `0${cursorMins}`
+        }:${cursorSecs > 9 ? cursorSecs : `0${cursorSecs}`}:${cursorMili}`;
+      });
 
-        document.addEventListener("mouseup", (e) => {
-            e.preventDefault();
-            selectedElement = undefined;
-            clickOffset = undefined;
-            drawLyrics(window.lyrics);
+      document.addEventListener('scroll', () => {
+        viewToggleButton.style.top = `${window.pageYOffset}px`;
+      });
+
+      const updatePlaybackHeadPos = () => {
+        const time = audio.currentTime * 1000;
+        const pos = (time / data.duration) * details.clientHeight;
+        playbackHead.style.top = `${pos}px`;
+        const relativePos = pos / details.clientHeight;
+        const cursorMili = Math.floor(time % 1000);
+        const cursorSecs = Math.floor(time / 1000) % 60;
+        const cursorMins = Math.floor(time / 1000 / 60);
+        playbackHeadPos.innerText = `${
+          cursorMins > 9 ? cursorMins : `0${cursorMins}`
+        }:${cursorSecs > 9 ? cursorSecs : `0${cursorSecs}`}:${cursorMili}`;
+      };
+
+      ['seeking', 'timeupdate'].forEach((event) =>
+        audio.addEventListener(event, updatePlaybackHeadPos)
+      );
+
+      audio.addEventListener('durationchange', () => {
+        data.duration = audio.duration * 1000;
+        drawboard(audio.duration);
+        updateOutput();
+      });
+
+      const toggleView = () => {
+        if (main.hidden) {
+          main.hidden = false;
+          details.hidden = true;
+        } else {
+          main.hidden = true;
+          details.hidden = false;
+          updatePlaybackHeadPos();
+          drawLyrics();
+        }
+      };
+
+      viewToggleButton.addEventListener('click', toggleView);
+
+      audioInput.addEventListener('change', () => {
+        const file = audioInput.files[0];
+        data.mp3 = file.name;
+        audio.setAttribute('src', URL.createObjectURL(file));
+        audio.setAttribute('type', file.type);
+        audio.load();
+      });
+
+      artistInput.addEventListener('input', (e) => {
+        e.stopPropagation();
+        data.artist = e.target.value;
+        updateOutput();
+      });
+
+      ['input', 'change'].forEach((event) => {
+        bpmInput.addEventListener(event, (e) => {
+          e.stopPropagation();
+          data.bpm = parseInt(e.target.value, 10);
+          updateOutput();
         });
-        document.addEventListener("mousemove", (e) => {
-            if (selectedElement !== undefined) {
-                const i = selectedElement[0];
-                const j = selectedElement[1];
-                // console.log(lyrics[i])
-                lyrics[i].lyrics[j].pos = lyrics[i].pos;
-                drawLyrics(window.lyrics);
+      });
+
+      titleInput.addEventListener('input', (e) => {
+        e.stopPropagation();
+        data.title = e.target.value;
+        updateOutput();
+      });
+
+      lyricsTextArea.addEventListener('input', (e) => {
+        e.stopPropagation();
+        const lines = e.target.value.split('\n');
+        lyrics = lines
+          .filter((line) => line.trim().length > 0)
+          .map((line, i) => {
+            return {
+              lyrics: line.split(' ').map((word, i) => {
+                return {
+                  word,
+                  xPos: i * 50,
+                  yPos: i * 100,
+                };
+              }),
+              pos: i * 1000,
+              width: 100,
+              height: 100,
+            };
+          });
+        updateOutput();
+        if (data.duration) {
+          drawLyrics();
+        }
+      });
+
+      const updateOutput = () => {
+        const textContent = [
+          `#TITLE:${data.title}`,
+          `#ARTIST:${data.artist}`,
+          `#BPM:${data.bpm}`,
+        ];
+        outputTextArea.textContent = textContent.join('\n');
+      };
+
+      const drawboard = (duration = 0) => {
+        document.querySelectorAll('div#secondBoard').forEach((element) => {
+          details.removeChild(element);
+        });
+        for (let i = 0; i < Math.ceil(duration); i++) {
+          const minutes = Math.floor(i / 60);
+          const seconds = i - minutes * 60;
+          const secondBoard = document.createElement('div');
+          secondBoard.id = 'secondBoard';
+          secondBoard.style.backgroundColor = 'white';
+          secondBoard.style.display = 'flex';
+          secondBoard.style.width = '100%';
+          secondBoard.style.height = '500px';
+          const label = document.createElement('div');
+          label.style.width = '10%';
+          label.style.height = '100%';
+          const timeSpan = document.createElement('span');
+          timeSpan.classList = 'uk-label uk-label-default';
+          timeSpan.innerText = `${minutes > 9 ? minutes : `0${minutes}`}:${
+            seconds > 9 ? seconds : `0${seconds}`
+          }:00`;
+          label.appendChild(timeSpan);
+          secondBoard.append(label);
+          const dividerList = document.createElement('div');
+          dividerList.style.width = '90%';
+          dividerList.style.height = '100%';
+          for (let i = 0; i < 10; i++) {
+            const divider = document.createElement('div');
+            divider.style.width = '100%';
+            divider.style.height = 'calc(10% - 1px)';
+            divider.style.borderBottom = '1px dashed black';
+            dividerList.append(divider);
+          }
+          secondBoard.append(dividerList);
+          details.appendChild(secondBoard);
+        }
+      };
+
+      let selectedElement, clickOffset;
+
+      const drawLyrics = (wrapper = null, word = null) => {
+        if (wrapper !== null) {
+          (() => {
+            const lyricElement = document.querySelectorAll('div#lyricsWrapper')[
+              wrapper
+            ];
+            const lyricData = lyrics[wrapper];
+            if (word !== null) {
+              const wordElement = lyricElement.children[word];
+              const wordData = lyricData.lyrics[word];
+              wordElement.style.top = `${
+                details.clientHeight * (wordData.yPos / data.duration)
+              }px`;
+              wordElement.style.left = `${wordData.xPos}px`;
             }
+            const maxWidth = Math.max(
+              ...lyricData.lyrics.map((lyric, i) => {
+                return lyric.xPos + lyricElement.children[i].clientWidth + 1;
+              })
+            );
+            const maxHeight = Math.max(
+              lyricData.height,
+              ...lyricData.lyrics.map((lyric, i) => {
+                const yPos =
+                  parseInt(lyricElement.children[i].style.top.split('px')[0]) +
+                  lyricElement.children[i].clientHeight +
+                  2;
+                return (yPos / details.clientHeight) * data.duration;
+              })
+            );
+            lyrics[wrapper].width = maxWidth;
+            lyrics[wrapper].height = maxHeight;
+            lyricElement.style.width = `${maxWidth}px`;
+            lyricElement.style.top = `${
+              details.clientHeight * (lyricData.pos / data.duration)
+            }px`;
+            lyricElement.style.height = `${
+              details.clientHeight * (maxHeight / data.duration)
+            }px`;
+          })();
+          return;
+        }
+        document.querySelectorAll('div#lyricsWrapper').forEach((element) => {
+          details.removeChild(element);
         });
-    </script>
-</body>
+        lyrics.forEach((line, i) => {
+          const lyricsLine = document.createElement('div');
+          lyricsLine.id = 'lyricsWrapper';
+          lyricsLine.style.border = '1px dashed gray';
+          lyricsLine.style.left = '10%';
+          lyricsLine.style.position = 'absolute';
+          lyricsLine.style.width = `${line.width}px`;
+          lyricsLine.style.height = `${
+            details.clientHeight * (line.height / data.duration)
+          }px`;
+          lyricsLine.style.top = `${
+            details.clientHeight * (line.pos / data.duration)
+          }px`;
+          lyricsLine.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.shiftKey === true) {
+              const minHeight = Math.min(
+                ...line.lyrics.map((lyric, index) => {
+                  const yPos = parseInt(
+                    lyricsLine.children[index].style.top.split('px')[0]
+                  );
+                  return (yPos / details.clientHeight) * data.duration;
+                })
+              );
+              lyrics[i].pos += minHeight;
+              lyrics[i].lyrics.forEach((lyric, j) => {
+                lyrics[i].lyrics[j].yPos -= minHeight;
+                lyricsLine.children[j].style.top = `${
+                  details.clientHeight *
+                  (lyrics[i].lyrics[j].yPos / data.duration)
+                }px`;
+              });
+              const maxHeight = Math.max(
+                ...line.lyrics.map((lyric, index) => {
+                  const yPos =
+                    parseInt(
+                      lyricsLine.children[index].style.top.split('px')[0]
+                    ) +
+                    lyricsLine.children[index].clientHeight +
+                    2;
+                  return (yPos / details.clientHeight) * data.duration;
+                })
+              );
+              lyrics[i].height = maxHeight;
+              lyricsLine.style.height = `${
+                details.clientHeight * (maxHeight / data.duration)
+              }px`;
+              lyricsLine.style.top = `${
+                details.clientHeight * (lyrics[i].pos / data.duration)
+              }px`;
+              return;
+            }
+            selectedElement = [i];
+            clickOffset = [e.layerX, e.layerY];
+          });
+          line.lyrics.forEach((lyric, j) => {
+            const lyricsWord = document.createElement('span');
+            lyricsWord.innerText = lyric.word;
+            lyricsWord.style.border = `1px dashed ${colors[j % colors.length]}`;
+            lyricsWord.style.top = `${
+              details.clientHeight * (lyric.yPos / data.duration)
+            }px`;
+            lyricsWord.style.left = `${lyric.xPos}px`;
+            lyricsWord.style.position = 'absolute';
+            lyricsWord.addEventListener('mousedown', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              selectedElement = [i, j];
+              clickOffset = [e.layerX + lyricsLine.offsetLeft, e.layerY];
+            });
+            lyricsLine.appendChild(lyricsWord);
+            setTimeout(() => {
+              lyrics[i].width = Math.max(
+                parseInt(lyricsLine.style.width.split('px')[0]),
+                parseInt(lyricsWord.style.left.split('px')[0]) +
+                  lyricsWord.clientWidth +
+                  2
+              );
+              lyrics[i].height = Math.max(
+                parseInt(lyricsLine.style.height.split('px')[0]),
+                (data.duration *
+                  (parseInt(lyricsWord.style.top.split('px')[0]) +
+                    lyricsWord.clientHeight +
+                    2)) /
+                  details.clientHeight
+              );
+              lyricsLine.style.width = `${lyrics[i].width}px`;
+              lyricsLine.style.height = `${
+                details.clientHeight * (lyrics[i].height / data.duration)
+              }px`;
+            }, 0);
+          });
+          details.appendChild(lyricsLine);
+        });
+      };
 
+      document.addEventListener('mouseup', (e) => {
+        e.preventDefault();
+        selectedElement = undefined;
+        clickOffset = undefined;
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (selectedElement !== undefined) {
+          const i = selectedElement[0];
+          const xPos = e.clientX - clickOffset[0];
+          const yPos = window.pageYOffset + e.clientY - clickOffset[1];
+          switch (selectedElement.length) {
+            case 1:
+              lyrics[i].pos = Math.min(
+                data.duration,
+                Math.max(0, (yPos / details.clientHeight) * data.duration)
+              );
+              drawLyrics(i);
+              break;
+            case 2:
+              const j = selectedElement[1];
+              lyrics[i].lyrics[j].xPos = Math.max(0, xPos);
+              lyrics[i].lyrics[j].yPos = Math.max(
+                0,
+                (yPos / details.clientHeight) * data.duration - lyrics[i].pos
+              );
+              drawLyrics(i, j);
+              break;
+            default:
+              break;
+          }
+        }
+      });
+    </script>
+  </body>
 </html>
