@@ -149,6 +149,7 @@
           width: 100%;
           height: 0px;
           border-bottom: 1px dashed red;
+          pointer-events: none;
         "
       >
         <span id="cursorPos" class="uk-label uk-label-danger">00:00:00</span>
@@ -346,6 +347,13 @@
           secondBoard.style.display = 'flex';
           secondBoard.style.width = '100%';
           secondBoard.style.height = '500px';
+          secondBoard.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const clickPos = window.pageYOffset + e.clientY;
+            const posAsTime = clickPos / 500;
+            audio.currentTime = posAsTime;
+          });
           const label = document.createElement('div');
           label.style.width = '10%';
           label.style.height = '100%';
@@ -403,7 +411,6 @@
                 return (yPos / details.clientHeight) * data.duration;
               })
             );
-            console.log(maxHeight);
             lyrics[wrapper].width = maxWidth;
             lyrics[wrapper].height = maxHeight;
             lyricElement.style.width = `${maxWidth}px`;
@@ -550,6 +557,24 @@
             default:
               break;
           }
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (['INPUT', 'TEXTAREA', 'BUTTON'].includes(e.target.tagName)) {
+          return;
+        }
+        switch (e.keyCode) {
+          case 32:
+            e.preventDefault();
+            if (audio.paused) {
+              audio.play();
+            } else {
+              audio.pause();
+            }
+            break;
+          default:
+            break;
         }
       });
     </script>
