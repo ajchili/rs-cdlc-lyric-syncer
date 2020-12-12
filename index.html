@@ -299,10 +299,30 @@
       });
 
       const updateOutput = () => {
+        if (details.hidden === true) {
+          return;
+        }
+        const gap = lyrics.length > 0 ? Math.ceil(lyrics[0].pos) : 0;
+        const timeToQuarterBeats = data.bpm * (1 / 60) * (1 / 1000);
         const textContent = [
           `#TITLE:${data.title}`,
           `#ARTIST:${data.artist}`,
           `#BPM:${data.bpm}`,
+          `#GAP:${gap}`,
+          ...lyrics.map((e) => {
+            const basePos = e.pos - gap;
+            const verse = e.lyrics.map(lyric => {
+              const yPos = basePos + lyric.yPos;
+              const posAsTime = Math.max((yPos / details.clientHeight) * data.duration, 0);
+              const pos = Math.floor(posAsTime * timeToQuarterBeats);
+              return `: ${pos} 1 0 ${lyric.word}`;
+            });
+            const endPos = basePos + e.height;
+            const endAsTime = (endPos / details.clientHeight) * data.duration;
+            const endOfVerse = Math.floor(endAsTime * timeToQuarterBeats) + 1;
+            verse.push(`- ${endOfVerse}`);
+            return verse.join('\n');
+          })
         ];
         outputTextArea.textContent = textContent.join('\n');
       };
@@ -368,7 +388,7 @@
               })
             );
             const maxHeight = Math.max(
-              lyricData.height,
+              // lyricData.height,
               ...lyricData.lyrics.map((lyric, i) => {
                 const yPos =
                   parseInt(lyricElement.children[i].style.top.split('px')[0]) +
@@ -377,6 +397,7 @@
                 return (yPos / details.clientHeight) * data.duration;
               })
             );
+            console.log(maxHeight);
             lyrics[wrapper].width = maxWidth;
             lyrics[wrapper].height = maxHeight;
             lyricElement.style.width = `${maxWidth}px`;
@@ -493,6 +514,7 @@
         e.preventDefault();
         selectedElement = undefined;
         clickOffset = undefined;
+        updateOutput();
       });
 
       document.addEventListener('mousemove', (e) => {
