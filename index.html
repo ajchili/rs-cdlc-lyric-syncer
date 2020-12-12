@@ -228,8 +228,21 @@
       audio.addEventListener('durationchange', () => {
         data.duration = audio.duration * 1000;
         drawboard(audio.duration);
-        updateOutput();
       });
+
+      let updatePlaybackInterval;
+
+      audio.addEventListener('play', () => {
+        updateCursorPositionInterval = setInterval(updatePlaybackHeadPos, 10);
+      });
+
+      audio.addEventListener('pause', () => {
+        if (isNaN(updateCursorPositionInterval)) {
+          return;
+        }
+        clearInterval(updateCursorPositionInterval);
+      });
+
 
       const toggleView = () => {
         if (main.hidden) {
@@ -256,21 +269,18 @@
       artistInput.addEventListener('input', (e) => {
         e.stopPropagation();
         data.artist = e.target.value;
-        updateOutput();
       });
 
       ['input', 'change'].forEach((event) => {
         bpmInput.addEventListener(event, (e) => {
           e.stopPropagation();
           data.bpm = parseInt(e.target.value, 10);
-          updateOutput();
         });
       });
 
       titleInput.addEventListener('input', (e) => {
         e.stopPropagation();
         data.title = e.target.value;
-        updateOutput();
       });
 
       lyricsTextArea.addEventListener('input', (e) => {
@@ -292,16 +302,12 @@
               height: 100,
             };
           });
-        updateOutput();
         if (data.duration) {
           drawLyrics();
         }
       });
 
       const updateOutput = () => {
-        if (details.hidden === true) {
-          return;
-        }
         const gap = lyrics.length > 0 ? Math.ceil(lyrics[0].pos) : 0;
         const timeToQuarterBeats = data.bpm * (1 / 60) * (1 / 1000);
         const textContent = [
@@ -514,7 +520,9 @@
         e.preventDefault();
         selectedElement = undefined;
         clickOffset = undefined;
-        updateOutput();
+        if (!details.hidden) {
+          updateOutput();
+        }
       });
 
       document.addEventListener('mousemove', (e) => {
