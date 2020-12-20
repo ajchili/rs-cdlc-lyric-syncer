@@ -11,6 +11,10 @@ export default class App extends Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({ media: null });
+  }
+
   setMedia = (title, type, url) => {
     this.setState({ media: null }, () => {
       this.setState({ media: { title, type, url } });
