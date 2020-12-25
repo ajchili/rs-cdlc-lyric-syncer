@@ -1,70 +1,36 @@
-# Getting Started with Create React App
+# rs-cdlc-lyric-syncer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Web application for generating lyric files used within Rocksmith 2014 CDLC.
+Serves as a replacement for
+[UltraStar Creator](https://github.com/UltraStar-Deluxe/UltraStar-Creator).
 
-## Available Scripts
+## How to use
 
-In the project directory, you can run:
+1. Go to the [application](https://ajchili.github.io/rs-cdlc-lyric-syncer/)
+2. Load your media file
+   ![Load your media file](images/how_to_use_1.png)
+3. Add lyrics
 
-### `yarn start`
+   - **H** - Add a lyric at the play head position
+   - **J** - Mark the end of a lyric at the play head position
+   - **K** - Mark the end of a verse at the play head position
+   - **SPACE** - Play/Pause
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+   ![Add lyrics](images/how_to_use_2.png)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+4. Export to a file
+   ![Export to a file](images/how_to_use_3.png)
+5. You will be asked to provide a song title, artist, and BPM
+6. Your lyrics will be downloaded to a text file
 
-### `yarn test`
+## Expected Lyric Syntax
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- To mark the start of a verse, capitalize the first letter of the first word in
+  the verse
 
-### `yarn build`
+  ![verse](images/syntax_1.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- To specify syllables in a word, add a lyric per syllable, specifying a **-**
+  (hyphen) at the end of each lyric
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  ![syllables](images/syntax_2.png)
