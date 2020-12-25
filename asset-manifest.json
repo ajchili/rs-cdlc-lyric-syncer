@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/rs-cdlc-lyric-syncer/static/js/main.8851380c.chunk.js",
-    "main.js.map": "/rs-cdlc-lyric-syncer/static/js/main.8851380c.chunk.js.map",
+    "main.js": "/rs-cdlc-lyric-syncer/static/js/main.d831e9c5.chunk.js",
+    "main.js.map": "/rs-cdlc-lyric-syncer/static/js/main.d831e9c5.chunk.js.map",
     "runtime-main.js": "/rs-cdlc-lyric-syncer/static/js/runtime-main.3dbe276c.js",
     "runtime-main.js.map": "/rs-cdlc-lyric-syncer/static/js/runtime-main.3dbe276c.js.map",
     "static/js/2.4444540b.chunk.js": "/rs-cdlc-lyric-syncer/static/js/2.4444540b.chunk.js",
@@ -12,6 +12,6 @@
   "entrypoints": [
     "static/js/runtime-main.3dbe276c.js",
     "static/js/2.4444540b.chunk.js",
-    "static/js/main.8851380c.chunk.js"
+    "static/js/main.d831e9c5.chunk.js"
   ]
 }
