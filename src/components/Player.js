@@ -158,13 +158,19 @@ export default class extends Component {
             normalizedNextPointPos - normalizedPos
           );
         }
-        if (
-          point.labelText.substr(0, 1) ===
-          point.labelText.substr(0, 1).toLowerCase()
-        ) {
-          return `: ${normalizedPos} ${normalizedLength} 0  ${point.labelText}`;
+        let lyric = point.labelText;
+        if (lyric.slice(-1) === '-') {
+          lyric = lyric.substr(0, lyric.length - 1);
         }
-        return `: ${normalizedPos} ${normalizedLength} 0 ${point.labelText}`;
+        if (
+          // Is not the start of a verse
+          (i > 0 && points[i - 1].color === '#FF0000') ||
+          // Previous lyric is not a syllable
+          (i > 0 && points[i - 1].labelText.slice(-1) !== '-')
+        ) {
+          return `: ${normalizedPos} ${normalizedLength} 0  ${lyric}`;
+        }
+        return `: ${normalizedPos} ${normalizedLength} 0 ${lyric}`;
       }),
       'E',
     ].filter((line) => line !== null);
