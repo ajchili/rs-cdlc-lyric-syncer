@@ -52,8 +52,8 @@ export default class extends Component {
       console.log('Peak instance initialized.');
 
       instance.on('points.enter', (point) => {
-        const isEndMarker = point.color === '#FF0000';
-        this.setState({ currentLyric: isEndMarker ? null : point.labelText });
+        const isLyric = point.color === '#666';
+        this.setState({ currentLyric: isLyric ? point.labelText : null });
       });
 
       instance.on('points.dblclick', this.editLyric);
@@ -71,11 +71,15 @@ export default class extends Component {
       ).onclick = this.zoomOut;
 
       document.querySelector(
-        'button[data-action="add-segment"]'
+        'button[data-action="add-lyric"]'
       ).onclick = this.addLyric;
 
       document.querySelector(
-        'button[data-action="add-point"]'
+        'button[data-action="end-lyric"]'
+      ).onclick = this.addEndOfLyric;
+
+      document.querySelector(
+        'button[data-action="end-verse"]'
       ).onclick = this.addEndOfVerse;
 
       document.querySelector(
@@ -116,19 +120,23 @@ export default class extends Component {
       `#BPM:${bpm}`,
       `#GAP:${Math.floor(gap)}`,
       ...points.map((point, i) => {
+        if (point.color === '#0000FF') {
+          return null;
+        }
         const isEndMarker = point.color === '#FF0000';
         const pos = point.time * 1000;
         const normalizedPos = Math.floor((pos - gap) * timeToQuarterBeats);
         if (isEndMarker) {
           if (i > 0) {
-            return `- ${normalizedPos + 1}`;
+            return `- ${Math.max(normalizedPos + 1, normalizedPos)}`;
           } else {
-            return `-  ${normalizedPos}`;
+            return `- ${normalizedPos}`;
           }
         }
         let normalizedLength = 1;
         if (i + 1 < points.length) {
-          const nextPointPos = points[i + 1].time * 1000;
+          const nextPoint = points[i + 1];
+          const nextPointPos = nextPoint.time * 1000;
           const normalizedNextPointPos = Math.floor(
             (nextPointPos - gap) * timeToQuarterBeats
           );
@@ -137,9 +145,16 @@ export default class extends Component {
             normalizedNextPointPos - normalizedPos
           );
         }
+        if (
+          point.labelText.substr(0, 1) ===
+          point.labelText.substr(0, 1).toLowerCase()
+        ) {
+          return `: ${normalizedPos} ${normalizedLength} 0  ${point.labelText}`;
+        }
         return `: ${normalizedPos} ${normalizedLength} 0 ${point.labelText}`;
       }),
-    ];
+      'E',
+    ].filter((line) => line !== null);
     console.log(textContent.join('\n'));
   };
 
@@ -149,10 +164,13 @@ export default class extends Component {
       case 'space':
         this.togglePaused();
         break;
-      case 'keyl':
+      case 'keyh':
         this.addLyric();
         break;
-      case 'semicolon':
+      case 'keyj':
+        this.addEndOfLyric();
+        break;
+      case 'keyk':
         this.addEndOfVerse();
         break;
       default:
@@ -187,7 +205,7 @@ export default class extends Component {
     if (instance === null) {
       return;
     }
-    const isEndMarker = point.color === '#FF0000';
+    const isEndMarker = point.color !== '#666';
     if (isEndMarker) {
       if (window.confirm('Do you want to delete this end marker?')) {
         instance.points.removeById(point.id);
@@ -205,6 +223,22 @@ export default class extends Component {
     point.update({
       labelText: lyric,
     });
+  };
+
+  addEndOfLyric = () => {
+    const { instance } = this.state;
+    if (instance === null) {
+      return;
+    }
+    const wasPaused = this.audio.current.paused;
+    instance.player.pause();
+    instance.points.add({
+      time: instance.player.getCurrentTime(),
+      labelText: '(end of lyric)',
+      editable: true,
+      color: '#0000FF',
+    });
+    if (!wasPaused) instance.player.play();
   };
 
   addEndOfVerse = () => {
@@ -275,7 +309,7 @@ export default class extends Component {
     return (
       <div className="uk-card uk-card-default uk-card-body uk-margin-top">
         <h3 className="uk-card-title">{media.title}</h3>
-        <h4 className="uk-heading-line uk-text-center">
+        <h4 className="uk-heading-bullet">
           <span>{currentLyric}</span>
         </h4>
         <div id="peaks-container">
@@ -316,17 +350,24 @@ export default class extends Component {
                   </button>
                   <button
                     className="uk-button uk-button-default uk-button-small"
-                    data-action="add-segment"
-                    title="(L)"
+                    data-action="add-lyric"
+                    title="(H)"
                   >
-                    Add a Lyrics at current time
+                    Add a lyrics at current time
                   </button>
                   <button
                     className="uk-button uk-button-default uk-button-small"
-                    data-action="add-point"
-                    title="(SEMICOLON/;/:)"
+                    data-action="end-lyric"
+                    title="(J)"
                   >
-                    Add a end of verse at current time
+                    End lyrics at current time
+                  </button>
+                  <button
+                    className="uk-button uk-button-default uk-button-small"
+                    data-action="end-verse"
+                    title="(K)"
+                  >
+                    End verse at current time
                   </button>
                 </div>
               </div>
