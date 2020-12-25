@@ -25,12 +25,7 @@ Serves as a replacement for
 
 ## Expected Lyric Syntax
 
-- To mark the start of a verse, capitalize the first letter of the first word in
-  the verse
-
-  ![verse](images/syntax_1.png)
-
 - To specify syllables in a word, add a lyric per syllable, specifying a **-**
   (hyphen) at the end of each lyric
 
-  ![syllables](images/syntax_2.png)
+  ![syllables](images/syntax_1.png)
