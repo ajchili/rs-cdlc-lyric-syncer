@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.js": "/static/js/main.8851380c.chunk.js",
-    "main.js.map": "/static/js/main.8851380c.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.ee7c8188.js",
-    "runtime-main.js.map": "/static/js/runtime-main.ee7c8188.js.map",
-    "static/js/2.4444540b.chunk.js": "/static/js/2.4444540b.chunk.js",
-    "static/js/2.4444540b.chunk.js.map": "/static/js/2.4444540b.chunk.js.map",
-    "index.html": "/index.html",
-    "static/js/2.4444540b.chunk.js.LICENSE.txt": "/static/js/2.4444540b.chunk.js.LICENSE.txt"
+    "main.js": "/rs-cdlc-lyric-syncer/static/js/main.8851380c.chunk.js",
+    "main.js.map": "/rs-cdlc-lyric-syncer/static/js/main.8851380c.chunk.js.map",
+    "runtime-main.js": "/rs-cdlc-lyric-syncer/static/js/runtime-main.3dbe276c.js",
+    "runtime-main.js.map": "/rs-cdlc-lyric-syncer/static/js/runtime-main.3dbe276c.js.map",
+    "static/js/2.4444540b.chunk.js": "/rs-cdlc-lyric-syncer/static/js/2.4444540b.chunk.js",
+    "static/js/2.4444540b.chunk.js.map": "/rs-cdlc-lyric-syncer/static/js/2.4444540b.chunk.js.map",
+    "index.html": "/rs-cdlc-lyric-syncer/index.html",
+    "static/js/2.4444540b.chunk.js.LICENSE.txt": "/rs-cdlc-lyric-syncer/static/js/2.4444540b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.ee7c8188.js",
+    "static/js/runtime-main.3dbe276c.js",
     "static/js/2.4444540b.chunk.js",
     "static/js/main.8851380c.chunk.js"
   ]
