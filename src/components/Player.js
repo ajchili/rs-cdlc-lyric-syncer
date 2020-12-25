@@ -92,6 +92,19 @@ export default class extends Component {
     document.onkeydown = this.handleKeyDown;
   };
 
+  download = (name, artist, fileData) => {
+    const fileName = `${artist} - ${name} lyrics.txt`;
+    const blob = new Blob([fileData], { type: 'data:text/plain;' });
+    const url = URL.createObjectURL(blob);
+    const element = document.createElement('a');
+    element.setAttribute('href', url);
+    element.setAttribute('download', fileName);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
   export = () => {
     const { media } = this.props;
     const { instance } = this.state;
@@ -155,7 +168,7 @@ export default class extends Component {
       }),
       'E',
     ].filter((line) => line !== null);
-    console.log(textContent.join('\n'));
+    this.download(title, artist, textContent.join('\n'));
   };
 
   handleKeyDown = (e) => {
