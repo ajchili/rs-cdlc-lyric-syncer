@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Peaks from 'peaks.js';
+import PlayerButton from './PlayerButton';
 
 // Workaround for AudioContext.
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -10,6 +11,7 @@ export default class extends Component {
     this.state = {
       instance: null,
       currentLyric: null,
+      playButtonText: 'Play',
     };
     this.audio = React.createRef();
   }
@@ -57,30 +59,6 @@ export default class extends Component {
       });
 
       instance.on('points.dblclick', this.editLyric);
-
-      document.querySelector(
-        'button[data-action="toggle-paused"]'
-      ).onclick = this.togglePaused;
-
-      document.querySelector(
-        'button[data-action="zoom-in"]'
-      ).onclick = this.zoomIn;
-
-      document.querySelector(
-        'button[data-action="zoom-out"]'
-      ).onclick = this.zoomOut;
-
-      document.querySelector(
-        'button[data-action="add-lyric"]'
-      ).onclick = this.addLyric;
-
-      document.querySelector(
-        'button[data-action="end-lyric"]'
-      ).onclick = this.addEndOfLyric;
-
-      document.querySelector(
-        'button[data-action="end-verse"]'
-      ).onclick = this.addEndOfVerse;
 
       document.querySelector(
         'input[data-action="change-volume"]'
@@ -293,11 +271,11 @@ export default class extends Component {
     if (instance === null) {
       return;
     }
-    this.setState({ currentLyric: null });
     const wasPaused = this.audio.current.paused;
-    document.querySelector(
-      'button[data-action="toggle-paused"]'
-    ).textContent = wasPaused ? 'Pause' : 'Play';
+    this.setState({
+      currentLyric: null,
+      playButtonText: wasPaused ? 'Pause' : 'Play',
+    });
     if (wasPaused) {
       instance.player.play();
     } else {
@@ -323,7 +301,7 @@ export default class extends Component {
 
   render() {
     const { media } = this.props;
-    const { instance, currentLyric } = this.state;
+    const { instance, currentLyric, playButtonText } = this.state;
 
     return (
       <div className="uk-card uk-card-default uk-card-body uk-margin-top">
@@ -348,46 +326,28 @@ export default class extends Component {
               <div className="uk-margin-top">
                 <label className="uk-form-label">Controls</label>
                 <div className="uk-button-group">
-                  <button
-                    className="uk-button uk-button-default uk-button-small"
-                    data-action="toggle-paused"
+                  <PlayerButton
+                    onClick={this.togglePaused}
+                    text={playButtonText}
                     title="(SPACE)"
-                  >
-                    Play
-                  </button>
-                  <button
-                    className="uk-button uk-button-default uk-button-small"
-                    data-action="zoom-in"
-                  >
-                    Zoom in
-                  </button>
-                  <button
-                    className="uk-button uk-button-default uk-button-small"
-                    data-action="zoom-out"
-                  >
-                    Zoom out
-                  </button>
-                  <button
-                    className="uk-button uk-button-default uk-button-small"
-                    data-action="add-lyric"
+                  />
+                  <PlayerButton onClick={this.zoomIn} text="Zoom in" />
+                  <PlayerButton onClick={this.zoomOut} text="Zoom out" />
+                  <PlayerButton
+                    onClick={this.addLyric}
+                    text="Add lyric at current time"
                     title="(H)"
-                  >
-                    Add a lyrics at current time
-                  </button>
-                  <button
-                    className="uk-button uk-button-default uk-button-small"
-                    data-action="end-lyric"
+                  />
+                  <PlayerButton
+                    onClick={this.addEndOfLyric}
+                    text="End lyric at current time"
                     title="(J)"
-                  >
-                    End lyrics at current time
-                  </button>
-                  <button
-                    className="uk-button uk-button-default uk-button-small"
-                    data-action="end-verse"
+                  />
+                  <PlayerButton
+                    onClick={this.addEndOfVerse}
+                    text="End verse at current time"
                     title="(K)"
-                  >
-                    End verse at current time
-                  </button>
+                  />
                 </div>
               </div>
               <div className="uk-margin-top">
@@ -405,12 +365,11 @@ export default class extends Component {
                 </div>
               </div>
               <div className="uk-margin-top">
-                <button
-                  className="uk-button uk-button-primary uk-button-small"
+                <PlayerButton
                   onClick={this.export}
-                >
-                  Export
-                </button>
+                  text="Export"
+                  type="primary"
+                />
               </div>
             </div>
           </>
