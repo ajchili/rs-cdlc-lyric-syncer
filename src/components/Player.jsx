@@ -104,7 +104,7 @@ export default class extends Component {
     bpm = parseInt(bpm, 10);
     const points = instance.points.getPoints().sort((a, b) => a.time - b.time);
     const gap = (points.length > 0 ? points[0].time : 0) * 1000;
-    const timeToQuarterBeats = bpm * (1 / 60) * (1 / 1000);
+    const timeToQuarterBeats = (bpm / 15000);
     const textContent = [
       `#TITLE:${title}`,
       `#ARTIST:${artist}`,
