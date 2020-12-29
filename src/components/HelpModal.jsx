@@ -17,7 +17,7 @@ export default class extends Component {
         </span>
       );
     }
-    return hotkeyElements.map((hotkey) => <li>{hotkey}</li>);
+    return hotkeyElements.map((hotkey, i) => <li key={i}>{hotkey}</li>);
   };
 
   render() {
@@ -25,7 +25,11 @@ export default class extends Component {
 
     return (
       <>
-        <a className="uk-button uk-button-text" uk-toggle={`target: #${id}`}>
+        <a
+          className="uk-button uk-button-text"
+          href={`#${id}`}
+          uk-toggle={`target: #${id}`}
+        >
           Help
         </a>
         <div id={id} className="uk-flex-top" uk-modal="true">
