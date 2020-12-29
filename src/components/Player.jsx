@@ -104,7 +104,7 @@ export default class extends Component {
     bpm = parseInt(bpm, 10);
     const points = instance.points.getPoints().sort((a, b) => a.time - b.time);
     const gap = (points.length > 0 ? points[0].time : 0) * 1000;
-    const timeToQuarterBeats = (bpm / 15000);
+    const timeToQuarterBeats = bpm / 15000;
     const textContent = [
       `#TITLE:${title}`,
       `#ARTIST:${artist}`,
@@ -323,16 +323,66 @@ export default class extends Component {
         ) : (
           <>
             <div className="uk-form-stacked">
+              <div
+                uk-grid="true"
+                className="uk-margin-top uk-child-width-expand"
+              >
+                <div>
+                  <label className="uk-form-label">Controls</label>
+                  <div className="uk-button-group">
+                    <PlayerButton
+                      onClick={this.togglePaused}
+                      text={playButtonText}
+                      title="(SPACE)"
+                    />
+                    <PlayerButton onClick={this.zoomIn} text="Zoom in" />
+                    <PlayerButton onClick={this.zoomOut} text="Zoom out" />
+                  </div>
+                </div>
+                {/* <div>
+                  <label className="uk-form-label">
+                    Playback Speed (0.25x - 1x)
+                  </label>
+                  <div className="uk-form-controls">
+                    <input
+                      className="uk-range"
+                      data-action="change-playback-speed"
+                      type="range"
+                      defaultValue="1"
+                      min="0.25"
+                      max="1"
+                      step="0.01"
+                    />
+                  </div>
+                </div> */}
+                <div>
+                  <label className="uk-form-label">Volume</label>
+                  <div className="uk-form-controls">
+                    <input
+                      className="uk-range"
+                      data-action="change-volume"
+                      type="range"
+                      defaultValue="1"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                    />
+                  </div>
+                </div>
+              </div>
               <div className="uk-margin-top">
-                <label className="uk-form-label">Controls</label>
+                <label className="uk-form-label">Lyric Options</label>
                 <div className="uk-button-group">
                   <PlayerButton
-                    onClick={this.togglePaused}
-                    text={playButtonText}
-                    title="(SPACE)"
+                    // onClick={this.export}
+                    text="Import"
+                    type="secondary"
                   />
-                  <PlayerButton onClick={this.zoomIn} text="Zoom in" />
-                  <PlayerButton onClick={this.zoomOut} text="Zoom out" />
+                  <PlayerButton
+                    onClick={this.export}
+                    text="Export"
+                    type="primary"
+                  />
                   <PlayerButton
                     onClick={this.addLyric}
                     text="Add lyric at current time"
@@ -349,27 +399,6 @@ export default class extends Component {
                     title="(K)"
                   />
                 </div>
-              </div>
-              <div className="uk-margin-top">
-                <label className="uk-form-label">Volume</label>
-                <div className="uk-form-controls">
-                  <input
-                    className="uk-range"
-                    data-action="change-volume"
-                    type="range"
-                    defaultValue="1"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                  />
-                </div>
-              </div>
-              <div className="uk-margin-top">
-                <PlayerButton
-                  onClick={this.export}
-                  text="Export"
-                  type="primary"
-                />
               </div>
             </div>
           </>
