@@ -14,6 +14,7 @@ export default class extends Component {
       playButtonText: 'Play',
     };
     this.audio = React.createRef();
+    window.addEventListener('resize', this.resizeView);
   }
 
   componentDidMount() {
@@ -299,6 +300,17 @@ export default class extends Component {
     instance.zoom.zoomOut();
   };
 
+  resizeView = () => {
+    const { instance } = this.state;
+    if (instance === null) {
+      return;
+    }
+    [
+      instance.views.getView('zoomview'),
+      instance.views.getView('overview'),
+    ].forEach((view) => view.fitToContainer());
+  };
+
   render() {
     const { media } = this.props;
     const { instance, currentLyric, playButtonText } = this.state;
@@ -310,8 +322,8 @@ export default class extends Component {
           <span>{currentLyric}</span>
         </h4>
         <div id="peaks-container">
-          <div id="zoomview-container"></div>
-          <div id="overview-container"></div>
+          <div id="zoomview-container" style={{ height: '20vh' }}></div>
+          <div id="overview-container" style={{ height: '15vh' }}></div>
         </div>
         {instance === null ? (
           <dl className="uk-description-list">
