@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AudioSourceSelector from './components/AudioSourceSelector';
+import Footer from './components/Footer';
 import Header from './components/Header';
 import Player from './components/Player';
 
@@ -29,6 +30,7 @@ export default class App extends Component {
         <Header />
         <AudioSourceSelector setMedia={this.setMedia} />
         {media !== null && <Player media={media} />}
+        <Footer />
       </div>
     );
   }
