@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import AudioSourceSelector from './components/AudioSourceSelector';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import LyricsImporter from './components/LyricsImporter';
 import Player from './components/Player';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      lyrics: [],
       media: null,
+      showImportView: false,
     };
   }
 
@@ -22,14 +25,41 @@ export default class App extends Component {
     });
   };
 
+  setLyrics = (lyrics, callback) => {
+    this.setState({ lyrics }, callback);
+  };
+
+  toggleImportView = (callback) => {
+    const { showImportView } = this.state;
+    this.setState({ showImportView: !showImportView }, callback);
+  };
+
   render() {
-    const { media } = this.state;
+    const { lyrics, media, showImportView } = this.state;
 
     return (
       <div className="uk-container">
         <Header />
         <AudioSourceSelector setMedia={this.setMedia} />
-        {media !== null && <Player media={media} />}
+        <div uk-grid="true" className="uk-margin-top">
+          <div className="uk-width-expand">
+            {media !== null && (
+              <Player
+                lyrics={lyrics}
+                media={media}
+                toggleImportView={this.toggleImportView}
+                resetLyrics={(callback) =>
+                  this.setLyrics([], this.toggleImportView(callback))
+                }
+              />
+            )}
+          </div>
+          {showImportView && (
+            <div className="uk-width-1-3 uk-grid-item-match">
+              <LyricsImporter onImport={this.setLyrics} />
+            </div>
+          )}
+        </div>
         <Footer />
       </div>
     );

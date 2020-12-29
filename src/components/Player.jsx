@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Peaks from 'peaks.js';
-import PlayerButton from './PlayerButton';
+import Button from './Button';
+import ImportedLyricsDisplay from './ImportedLyricsDisplay';
 
 // Workaround for AudioContext.
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -9,6 +10,7 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      importedLyrics: [],
       instance: null,
       currentLyric: null,
       playButtonText: 'Play',
@@ -20,6 +22,15 @@ export default class extends Component {
   componentDidMount() {
     this.initializePeaks();
     this.addEventListeners();
+  }
+
+  componentDidUpdate() {
+    const { lyrics, resetLyrics } = this.props;
+    if (lyrics.length > 0) {
+      resetLyrics(() => {
+        this.setState({ importedLyrics: lyrics }, this.resizeView);
+      });
+    }
   }
 
   initializePeaks = () => {
@@ -177,20 +188,34 @@ export default class extends Component {
     }
   };
 
+  clearLyrics = () => {
+    this.setState({ importedLyrics: [] }, this.resizeView);
+  };
+
   addLyric = () => {
-    const { instance } = this.state;
+    const { importedLyrics, instance } = this.state;
     if (instance === null) {
       return;
     }
     const wasPaused = this.audio.current.paused;
-    instance.player.pause();
-    const lyric = prompt('Please provide a lyric', '');
-    if (lyric === null || lyric.trim().length === 0) {
-      if (!wasPaused) instance.player.play();
-      return;
+    const time = instance.player.getCurrentTime();
+    let lyric = '';
+    if (importedLyrics.length > 0) {
+      lyric = importedLyrics[0];
+      this.setState(
+        { importedLyrics: importedLyrics.slice(1) },
+        this.resizeView
+      );
+    } else {
+      instance.player.pause();
+      lyric = prompt('Please provide a lyric', '');
+      if (lyric === null || lyric.trim().length === 0) {
+        if (!wasPaused) instance.player.play();
+        return;
+      }
     }
     instance.points.add({
-      time: instance.player.getCurrentTime(),
+      time,
       labelText: lyric,
       editable: true,
       color: '#666',
@@ -312,18 +337,31 @@ export default class extends Component {
   };
 
   render() {
-    const { media } = this.props;
-    const { instance, currentLyric, playButtonText } = this.state;
+    const { media, toggleImportView } = this.props;
+    const {
+      importedLyrics,
+      instance,
+      currentLyric,
+      playButtonText,
+    } = this.state;
 
     return (
-      <div className="uk-card uk-card-default uk-card-body uk-margin-top">
+      <div className="uk-card uk-card-default uk-card-body">
         <h3 className="uk-card-title">{media.title}</h3>
         <h4 className="uk-heading-bullet">
           <span>{currentLyric}</span>
         </h4>
-        <div id="peaks-container">
-          <div id="zoomview-container" style={{ height: '20vh' }}></div>
-          <div id="overview-container" style={{ height: '15vh' }}></div>
+        <div uk-grid="true">
+          <div id="peaks-container" className="uk-width-expand">
+            <div id="zoomview-container" style={{ height: '20vh' }}></div>
+            <div id="overview-container" style={{ height: '15vh' }}></div>
+          </div>
+          {importedLyrics.length > 0 && (
+            <ImportedLyricsDisplay
+              clear={this.clearLyrics}
+              lyrics={importedLyrics}
+            />
+          )}
         </div>
         {instance === null ? (
           <dl className="uk-description-list">
@@ -342,13 +380,13 @@ export default class extends Component {
                 <div>
                   <label className="uk-form-label">Controls</label>
                   <div className="uk-button-group">
-                    <PlayerButton
+                    <Button
                       onClick={this.togglePaused}
                       text={playButtonText}
                       title="(SPACE)"
                     />
-                    <PlayerButton onClick={this.zoomIn} text="Zoom in" />
-                    <PlayerButton onClick={this.zoomOut} text="Zoom out" />
+                    <Button onClick={this.zoomIn} text="Zoom in" />
+                    <Button onClick={this.zoomOut} text="Zoom out" />
                   </div>
                 </div>
                 {/* <div>
@@ -385,27 +423,23 @@ export default class extends Component {
               <div className="uk-margin-top">
                 <label className="uk-form-label">Lyric Options</label>
                 <div className="uk-button-group">
-                  <PlayerButton
-                    // onClick={this.export}
+                  <Button
+                    onClick={() => toggleImportView(this.resizeView)}
                     text="Import"
                     type="secondary"
                   />
-                  <PlayerButton
-                    onClick={this.export}
-                    text="Export"
-                    type="primary"
-                  />
-                  <PlayerButton
+                  <Button onClick={this.export} text="Export" type="primary" />
+                  <Button
                     onClick={this.addLyric}
                     text="Add lyric at current time"
                     title="(H)"
                   />
-                  <PlayerButton
+                  <Button
                     onClick={this.addEndOfLyric}
                     text="End lyric at current time"
                     title="(J)"
                   />
-                  <PlayerButton
+                  <Button
                     onClick={this.addEndOfVerse}
                     text="End verse at current time"
                     title="(K)"
