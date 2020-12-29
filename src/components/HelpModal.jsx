@@ -39,10 +39,20 @@ export default class extends Component {
               type="button"
               uk-close="true"
             />
-            <h1 className="uk-heading-line">
+            <h1 className="uk-heading-line uk-margin-top">
               <span>Hotkeys</span>
             </h1>
             <ul className="uk-list">{this.renderHotkeys()}</ul>
+            <h1 className="uk-heading-line uk-margin-top">
+              <span>Syntax</span>
+            </h1>
+            <ul className="uk-list">
+              <li>
+                To specify syllables in a word, add a lyric per syllable,
+                specifying a <strong>- (hyphen)</strong> at the end of each
+                lyric
+              </li>
+            </ul>
           </div>
         </div>
       </>
