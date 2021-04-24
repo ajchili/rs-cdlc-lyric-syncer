@@ -14,6 +14,7 @@ export default class extends Component {
       instance: null,
       currentLyric: null,
       playButtonText: 'Play',
+      playbackSpeed: 1,
     };
     this.audio = React.createRef();
     window.addEventListener('resize', this.resizeView);
@@ -39,6 +40,7 @@ export default class extends Component {
     this.audio.current.setAttribute('src', media.url);
     this.audio.current.setAttribute('type', media.type);
     this.audio.current.load();
+    this.audio.current.playbackRate = 1;
     const audioContext = new AudioContext();
     const options = {
       containers: {
@@ -57,7 +59,7 @@ export default class extends Component {
       zoomLevels: [64, 128, 256, 512, 1024, 2048, 4096, 8192],
     };
     Peaks.init(options, (err, instance) => {
-      this.setState({ instance });
+      this.setState({ instance, playbackSpeed: 1 });
       if (err) {
         console.error(err.message);
         return;
@@ -75,6 +77,10 @@ export default class extends Component {
       document.querySelector(
         'input[data-action="change-volume"]'
       ).onchange = this.changeVolume;
+
+      document.querySelector(
+        'input[data-action="change-playback-speed"]'
+      ).onchange = this.changePlaybackSpeed;
     });
   };
 
@@ -292,6 +298,20 @@ export default class extends Component {
     this.audio.current.volume = volume;
   };
 
+  changePlaybackSpeed = () => {
+    const { instance } = this.state;
+    if (instance === null) {
+      return;
+    }
+    const playbackSpeed =
+      parseFloat(
+        document.querySelector('input[data-action="change-playback-speed"]')
+          .value
+      ) || 1;
+    this.audio.current.playbackRate = playbackSpeed;
+    this.setState({ playbackSpeed });
+  };
+
   togglePaused = () => {
     const { instance } = this.state;
     if (instance === null) {
@@ -343,6 +363,7 @@ export default class extends Component {
       instance,
       currentLyric,
       playButtonText,
+      playbackSpeed,
     } = this.state;
 
     return (
@@ -389,9 +410,9 @@ export default class extends Component {
                     <Button onClick={this.zoomOut} text="Zoom out" />
                   </div>
                 </div>
-                {/* <div>
+                <div>
                   <label className="uk-form-label">
-                    Playback Speed (0.25x - 1x)
+                    Playback Speed ({playbackSpeed}x)
                   </label>
                   <div className="uk-form-controls">
                     <input
@@ -404,7 +425,7 @@ export default class extends Component {
                       step="0.01"
                     />
                   </div>
-                </div> */}
+                </div>
                 <div>
                   <label className="uk-form-label">Volume</label>
                   <div className="uk-form-controls">
