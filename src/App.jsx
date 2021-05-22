@@ -11,6 +11,7 @@ export default class App extends Component {
     this.state = {
       lyrics: [],
       media: null,
+      points: [],
       showImportView: false,
     };
   }
@@ -29,13 +30,17 @@ export default class App extends Component {
     this.setState({ lyrics }, callback);
   };
 
+  setPoints = (points, callback) => {
+    this.setState({ points }, callback);
+  };
+
   toggleImportView = (callback) => {
     const { showImportView } = this.state;
     this.setState({ showImportView: !showImportView }, callback);
   };
 
   render() {
-    const { lyrics, media, showImportView } = this.state;
+    const { lyrics, media, points, showImportView } = this.state;
 
     return (
       <div className="uk-container">
@@ -47,16 +52,23 @@ export default class App extends Component {
               <Player
                 lyrics={lyrics}
                 media={media}
+                points={points}
                 toggleImportView={this.toggleImportView}
                 resetLyrics={(callback) =>
                   this.setLyrics([], this.toggleImportView(callback))
+                }
+                resetPoints={(callback) =>
+                  this.setPoints([], this.toggleImportView(callback))
                 }
               />
             )}
           </div>
           {showImportView && (
             <div className="uk-width-1-3 uk-grid-item-match">
-              <LyricsImporter onImport={this.setLyrics} />
+              <LyricsImporter
+                onImportLyrics={this.setLyrics}
+                onImportPoints={this.setPoints}
+              />
             </div>
           )}
         </div>

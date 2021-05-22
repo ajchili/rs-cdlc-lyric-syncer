@@ -26,8 +26,14 @@ export default class extends Component {
   }
 
   componentDidUpdate() {
-    const { lyrics, resetLyrics } = this.props;
-    if (lyrics.length > 0) {
+    const { lyrics = [], points = [], resetLyrics, resetPoints } = this.props;
+    if (points.length > 0) {
+      resetPoints(() => {
+        const { instance } = this.state;
+        instance.points.removeAll();
+        points.forEach((point) => instance.points.add(point));
+      });
+    } else if (lyrics.length > 0) {
       resetLyrics(() => {
         this.setState({ importedLyrics: lyrics }, this.resizeView);
       });
@@ -74,9 +80,8 @@ export default class extends Component {
 
       instance.on('points.dblclick', this.editLyric);
 
-      document.querySelector(
-        'input[data-action="change-volume"]'
-      ).onchange = this.changeVolume;
+      document.querySelector('input[data-action="change-volume"]').onchange =
+        this.changeVolume;
 
       document.querySelector(
         'input[data-action="change-playback-speed"]'
@@ -449,7 +454,7 @@ export default class extends Component {
                     text="Import"
                     type="secondary"
                   />
-                  <Button onClick={this.export} text="Export" type="primary" />
+                  <Button onClick={this.export} text="Save" type="primary" />
                   <Button
                     onClick={this.addLyric}
                     text="Add lyric at current time"
