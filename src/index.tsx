@@ -9,5 +9,5 @@ document.body.appendChild($app);
 root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

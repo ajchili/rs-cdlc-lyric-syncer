@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Button from './Button';
+import React, { Component } from "react";
+import Button from "./Button";
 
 export default class extends Component {
   render() {
@@ -9,7 +9,7 @@ export default class extends Component {
       <div className="uk-width-1-3 uk-grid-item-match">
         <div
           className="uk-flex uk-flex-column uk-height-1-1"
-          style={{ height: '35vh' }}
+          style={{ height: "35vh" }}
         >
           <h5 className="uk-heading-bullet">
             <span>
@@ -18,7 +18,7 @@ export default class extends Component {
           </h5>
           <div
             className="uk-flex-1"
-            style={{ maxHeight: '100%', overflowY: 'scroll' }}
+            style={{ maxHeight: "100%", overflowY: "scroll" }}
           >
             <ul className="uk-list uk-list-striped">
               {lyrics.slice(1).map((lyric, i) => {

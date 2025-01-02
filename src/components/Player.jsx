@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import Peaks from 'peaks.js';
-import Button from './Button';
-import ImportedLyricsDisplay from './ImportedLyricsDisplay';
+import React, { Component } from "react";
+import Peaks from "peaks.js";
+import Button from "./Button";
+import ImportedLyricsDisplay from "./ImportedLyricsDisplay";
 
 // Workaround for AudioContext.
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -13,11 +13,11 @@ export default class extends Component {
       importedLyrics: [],
       instance: null,
       currentLyric: null,
-      playButtonText: 'Play',
+      playButtonText: "Play",
       playbackSpeed: 1,
     };
     this.audio = React.createRef();
-    window.addEventListener('resize', this.resizeView);
+    window.addEventListener("resize", this.resizeView);
   }
 
   componentDidMount() {
@@ -43,15 +43,15 @@ export default class extends Component {
   initializePeaks = () => {
     const { media } = this.props;
     this.setState({ instance: null });
-    this.audio.current.setAttribute('src', media.url);
-    this.audio.current.setAttribute('type', media.type);
+    this.audio.current.setAttribute("src", media.url);
+    this.audio.current.setAttribute("type", media.type);
     this.audio.current.load();
     this.audio.current.playbackRate = 1;
     const audioContext = new AudioContext();
     const options = {
       containers: {
-        overview: document.getElementById('overview-container'),
-        zoomview: document.getElementById('zoomview-container'),
+        overview: document.getElementById("overview-container"),
+        zoomview: document.getElementById("zoomview-container"),
       },
       emitCueEvents: true,
       mediaElement: this.audio.current,
@@ -71,20 +71,20 @@ export default class extends Component {
         return;
       }
 
-      console.log('Peak instance initialized.');
+      console.log("Peak instance initialized.");
 
-      instance.on('points.enter', (point) => {
-        const isLyric = point.color === '#666';
+      instance.on("points.enter", (point) => {
+        const isLyric = point.color === "#666";
         this.setState({ currentLyric: isLyric ? point.labelText : null });
       });
 
-      instance.on('points.dblclick', this.editLyric);
+      instance.on("points.dblclick", this.editLyric);
 
       document.querySelector('input[data-action="change-volume"]').onchange =
         this.changeVolume;
 
       document.querySelector(
-        'input[data-action="change-playback-speed"]'
+        'input[data-action="change-playback-speed"]',
       ).onchange = this.changePlaybackSpeed;
     });
   };
@@ -95,12 +95,12 @@ export default class extends Component {
 
   download = (name, artist, fileData) => {
     const fileName = `${artist} - ${name} lyrics.txt`;
-    const blob = new Blob([fileData], { type: 'data:text/plain;' });
+    const blob = new Blob([fileData], { type: "data:text/plain;" });
     const url = URL.createObjectURL(blob);
-    const element = document.createElement('a');
-    element.setAttribute('href', url);
-    element.setAttribute('download', fileName);
-    element.style.display = 'none';
+    const element = document.createElement("a");
+    element.setAttribute("href", url);
+    element.setAttribute("download", fileName);
+    element.style.display = "none";
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -112,15 +112,15 @@ export default class extends Component {
     if (instance === null) {
       return;
     }
-    const title = prompt('Song title', media.title);
+    const title = prompt("Song title", media.title);
     if (title === null || title.trim().length === 0) {
       return;
     }
-    const artist = prompt('Artist', '');
+    const artist = prompt("Artist", "");
     if (artist === null || artist.trim().length === 0) {
       return;
     }
-    let bpm = prompt('BPM', '100');
+    let bpm = prompt("BPM", "100");
     if (bpm === null || bpm.trim().length === 0) {
       return;
     }
@@ -134,10 +134,10 @@ export default class extends Component {
       `#BPM:${bpm}`,
       `#GAP:${Math.floor(gap)}`,
       ...points.map((point, i) => {
-        if (point.color === '#0000FF') {
+        if (point.color === "#0000FF") {
           return null;
         }
-        const isEndMarker = point.color === '#FF0000';
+        const isEndMarker = point.color === "#FF0000";
         const pos = point.time * 1000;
         const normalizedPos = Math.floor((pos - gap) * timeToQuarterBeats);
         if (isEndMarker) {
@@ -152,45 +152,45 @@ export default class extends Component {
           const nextPoint = points[i + 1];
           const nextPointPos = nextPoint.time * 1000;
           const normalizedNextPointPos = Math.floor(
-            (nextPointPos - gap) * timeToQuarterBeats
+            (nextPointPos - gap) * timeToQuarterBeats,
           );
           normalizedLength = Math.max(
             1,
-            normalizedNextPointPos - normalizedPos
+            normalizedNextPointPos - normalizedPos,
           );
         }
         let lyric = point.labelText;
-        if (lyric.slice(-1) === '-') {
+        if (lyric.slice(-1) === "-") {
           lyric = lyric.substr(0, lyric.length - 1);
         }
         if (
           // Is not the start of a verse
-          (i > 0 && points[i - 1].color === '#FF0000') ||
+          (i > 0 && points[i - 1].color === "#FF0000") ||
           // Previous lyric is not a syllable
-          (i > 0 && points[i - 1].labelText.slice(-1) !== '-')
+          (i > 0 && points[i - 1].labelText.slice(-1) !== "-")
         ) {
           return `: ${normalizedPos} ${normalizedLength} 0  ${lyric}`;
         }
         return `: ${normalizedPos} ${normalizedLength} 0 ${lyric}`;
       }),
-      'E',
+      "E",
     ].filter((line) => line !== null);
-    this.download(title, artist, textContent.join('\n'));
+    this.download(title, artist, textContent.join("\n"));
   };
 
   handleKeyDown = (e) => {
     switch (e.code.toLowerCase()) {
       // Play/Pause on space pressed
-      case 'space':
+      case "space":
         this.togglePaused();
         break;
-      case 'keyh':
+      case "keyh":
         this.addLyric();
         break;
-      case 'keyj':
+      case "keyj":
         this.addEndOfLyric();
         break;
-      case 'keyk':
+      case "keyk":
         this.addEndOfVerse();
         break;
       default:
@@ -210,16 +210,16 @@ export default class extends Component {
     }
     const wasPaused = this.audio.current.paused;
     const time = instance.player.getCurrentTime();
-    let lyric = '';
+    let lyric = "";
     if (importedLyrics.length > 0) {
       lyric = importedLyrics[0];
       this.setState(
         { importedLyrics: importedLyrics.slice(1) },
-        this.resizeView
+        this.resizeView,
       );
     } else {
       instance.player.pause();
-      lyric = prompt('Please provide a lyric', '');
+      lyric = prompt("Please provide a lyric", "");
       if (lyric === null || lyric.trim().length === 0) {
         if (!wasPaused) instance.player.play();
         return;
@@ -229,7 +229,7 @@ export default class extends Component {
       time,
       labelText: lyric,
       editable: true,
-      color: '#666',
+      color: "#666",
     });
     if (!wasPaused) instance.player.play();
   };
@@ -239,16 +239,16 @@ export default class extends Component {
     if (instance === null) {
       return;
     }
-    const isEndMarker = point.color !== '#666';
+    const isEndMarker = point.color !== "#666";
     if (isEndMarker) {
-      if (window.confirm('Do you want to delete this end marker?')) {
+      if (window.confirm("Do you want to delete this end marker?")) {
         instance.points.removeById(point.id);
       }
       return;
     }
     const lyric = prompt(
-      'Update lyric, leave blank to remove',
-      point.labelText
+      "Update lyric, leave blank to remove",
+      point.labelText,
     );
     if (lyric === null || lyric.trim().length === 0) {
       instance.points.removeById(point.id);
@@ -268,9 +268,9 @@ export default class extends Component {
     instance.player.pause();
     instance.points.add({
       time: instance.player.getCurrentTime(),
-      labelText: '(end of lyric)',
+      labelText: "(end of lyric)",
       editable: true,
-      color: '#0000FF',
+      color: "#0000FF",
     });
     if (!wasPaused) instance.player.play();
   };
@@ -284,9 +284,9 @@ export default class extends Component {
     instance.player.pause();
     instance.points.add({
       time: instance.player.getCurrentTime(),
-      labelText: '(end of verse)',
+      labelText: "(end of verse)",
       editable: true,
-      color: '#FF0000',
+      color: "#FF0000",
     });
     if (!wasPaused) instance.player.play();
   };
@@ -298,7 +298,7 @@ export default class extends Component {
     }
     const volume =
       parseFloat(
-        document.querySelector('input[data-action="change-volume"]').value
+        document.querySelector('input[data-action="change-volume"]').value,
       ) || 0;
     this.audio.current.volume = volume;
   };
@@ -311,7 +311,7 @@ export default class extends Component {
     const playbackSpeed =
       parseFloat(
         document.querySelector('input[data-action="change-playback-speed"]')
-          .value
+          .value,
       ) || 1;
     this.audio.current.playbackRate = playbackSpeed;
     this.setState({ playbackSpeed });
@@ -325,7 +325,7 @@ export default class extends Component {
     const wasPaused = this.audio.current.paused;
     this.setState({
       currentLyric: null,
-      playButtonText: wasPaused ? 'Pause' : 'Play',
+      playButtonText: wasPaused ? "Pause" : "Play",
     });
     if (wasPaused) {
       instance.player.play();
@@ -356,8 +356,8 @@ export default class extends Component {
       return;
     }
     [
-      instance.views.getView('zoomview'),
-      instance.views.getView('overview'),
+      instance.views.getView("zoomview"),
+      instance.views.getView("overview"),
     ].forEach((view) => view.fitToContainer());
   };
 
@@ -379,8 +379,8 @@ export default class extends Component {
         </h4>
         <div uk-grid="true">
           <div id="peaks-container" className="uk-width-expand">
-            <div id="zoomview-container" style={{ height: '20vh' }}></div>
-            <div id="overview-container" style={{ height: '15vh' }}></div>
+            <div id="zoomview-container" style={{ height: "20vh" }}></div>
+            <div id="overview-container" style={{ height: "15vh" }}></div>
           </div>
           {importedLyrics.length > 0 && (
             <ImportedLyricsDisplay

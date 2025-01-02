@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import HelpModal from './HelpModal';
+import React, { Component } from "react";
+import HelpModal from "./HelpModal";
 
 export default class extends Component {
   render() {

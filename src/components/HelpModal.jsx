@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 const hotkeys = {
-  SPACE: 'Play/Pause',
-  H: 'Add lyric at current time',
-  J: 'End lyric at current time',
-  K: 'End verse at current time',
+  SPACE: "Play/Pause",
+  H: "Add lyric at current time",
+  J: "End lyric at current time",
+  K: "End verse at current time",
 };
 
 export default class extends Component {
@@ -14,14 +14,14 @@ export default class extends Component {
       hotkeyElements.push(
         <span>
           <strong>{hotkey}</strong> - {hotkeys[hotkey]}
-        </span>
+        </span>,
       );
     }
     return hotkeyElements.map((hotkey, i) => <li key={i}>{hotkey}</li>);
   };
 
   render() {
-    const { id = 'help-modal' } = this.props;
+    const { id = "help-modal" } = this.props;
 
     return (
       <>

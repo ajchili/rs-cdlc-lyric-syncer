@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import AudioSourceSelector from './components/AudioSourceSelector';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import LyricsImporter from './components/LyricsImporter';
-import Player from './components/Player';
+import React, { Component } from "react";
+import AudioSourceSelector from "./components/AudioSourceSelector";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import LyricsImporter from "./components/LyricsImporter";
+import Player from "./components/Player";
 
 export default class App extends Component {
   constructor(props) {
