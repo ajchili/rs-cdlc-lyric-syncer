@@ -6,7 +6,7 @@ import ImportedLyricsDisplay from "./ImportedLyricsDisplay";
 // Workaround for AudioContext.
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-export default class extends Component {
+export default class Player extends Component {
   constructor(props) {
     super(props);
     this.state = {

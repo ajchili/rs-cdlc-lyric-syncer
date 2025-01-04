@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Button from "./Button";
 
-export default class extends Component {
+export default class ImportedLyricsDisplay extends Component {
   render() {
     const { clear = () => {}, lyrics } = this.props;
 

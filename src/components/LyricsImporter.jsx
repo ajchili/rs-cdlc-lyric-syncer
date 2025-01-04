@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Button from "./Button";
 
-export default class extends Component {
+export default class LyricsImporter extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +58,7 @@ export default class extends Component {
     ).split(":")[1];
     bpm = parseInt(bpm, 10);
     const lyricLines = lines.filter(
-      (line) => !line.startsWith("#") && !line.startsWith("E"),
+      (line) => !line.startsWith("#") && !line.startsWith("E")
     );
     const points = [];
     for (let i = 0; i < lyricLines.length; i++) {

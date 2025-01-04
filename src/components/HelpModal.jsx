@@ -7,14 +7,14 @@ const hotkeys = {
   K: "End verse at current time",
 };
 
-export default class extends Component {
+export default class HelpModal extends Component {
   renderHotkeys = () => {
     const hotkeyElements = [];
     for (let hotkey in hotkeys) {
       hotkeyElements.push(
         <span>
           <strong>{hotkey}</strong> - {hotkeys[hotkey]}
-        </span>,
+        </span>
       );
     }
     return hotkeyElements.map((hotkey, i) => <li key={i}>{hotkey}</li>);
