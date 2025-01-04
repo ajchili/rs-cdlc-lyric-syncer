@@ -5,6 +5,7 @@ const hotkeys = {
   H: "Add lyric at current time",
   J: "End lyric at current time",
   K: "End verse at current time",
+  "Scroll/Zoom": "Scrolling on the audio area will zoom in and out",
 };
 
 export default class HelpModal extends Component {

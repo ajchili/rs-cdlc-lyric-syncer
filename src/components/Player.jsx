@@ -18,6 +18,21 @@ export default class Player extends Component {
     };
     this.audio = React.createRef();
     window.addEventListener("resize", this.resizeView);
+
+    window.addEventListener(
+      "wheel",
+      (e) => {
+        if (e.target instanceof HTMLCanvasElement) {
+          e.preventDefault();
+          if (e.deltaY < 0) {
+            this.zoomOut();
+          } else {
+            this.zoomIn();
+          }
+        }
+      },
+      { passive: false }
+    );
   }
 
   componentDidMount() {
