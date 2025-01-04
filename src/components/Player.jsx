@@ -99,7 +99,7 @@ export default class Player extends Component {
         this.changeVolume;
 
       document.querySelector(
-        'input[data-action="change-playback-speed"]',
+        'input[data-action="change-playback-speed"]'
       ).onchange = this.changePlaybackSpeed;
     });
   };
@@ -167,11 +167,11 @@ export default class Player extends Component {
           const nextPoint = points[i + 1];
           const nextPointPos = nextPoint.time * 1000;
           const normalizedNextPointPos = Math.floor(
-            (nextPointPos - gap) * timeToQuarterBeats,
+            (nextPointPos - gap) * timeToQuarterBeats
           );
           normalizedLength = Math.max(
             1,
-            normalizedNextPointPos - normalizedPos,
+            normalizedNextPointPos - normalizedPos
           );
         }
         let lyric = point.labelText;
@@ -230,7 +230,7 @@ export default class Player extends Component {
       lyric = importedLyrics[0];
       this.setState(
         { importedLyrics: importedLyrics.slice(1) },
-        this.resizeView,
+        this.resizeView
       );
     } else {
       instance.player.pause();
@@ -263,7 +263,7 @@ export default class Player extends Component {
     }
     const lyric = prompt(
       "Update lyric, leave blank to remove",
-      point.labelText,
+      point.labelText
     );
     if (lyric === null || lyric.trim().length === 0) {
       instance.points.removeById(point.id);
@@ -313,7 +313,7 @@ export default class Player extends Component {
     }
     const volume =
       parseFloat(
-        document.querySelector('input[data-action="change-volume"]').value,
+        document.querySelector('input[data-action="change-volume"]').value
       ) || 0;
     this.audio.current.volume = volume;
   };
@@ -326,7 +326,7 @@ export default class Player extends Component {
     const playbackSpeed =
       parseFloat(
         document.querySelector('input[data-action="change-playback-speed"]')
-          .value,
+          .value
       ) || 1;
     this.audio.current.playbackRate = playbackSpeed;
     this.setState({ playbackSpeed });
@@ -404,6 +404,13 @@ export default class Player extends Component {
             />
           )}
         </div>
+        <audio
+          ref={this.audio}
+          className="uk-margin-top"
+          hidden={instance === null}
+          controls
+          style={{ width: "100%" }}
+        ></audio>
         {instance === null ? (
           <dl className="uk-description-list">
             <dt>Processing song data...</dt>
@@ -421,11 +428,6 @@ export default class Player extends Component {
                 <div>
                   <label className="uk-form-label">Controls</label>
                   <div className="uk-button-group">
-                    <Button
-                      onClick={this.togglePaused}
-                      text={playButtonText}
-                      title="(SPACE)"
-                    />
                     <Button onClick={this.zoomIn} text="Zoom in" />
                     <Button onClick={this.zoomOut} text="Zoom out" />
                   </div>
@@ -441,20 +443,6 @@ export default class Player extends Component {
                       type="range"
                       defaultValue="1"
                       min="0.25"
-                      max="1"
-                      step="0.01"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="uk-form-label">Volume</label>
-                  <div className="uk-form-controls">
-                    <input
-                      className="uk-range"
-                      data-action="change-volume"
-                      type="range"
-                      defaultValue="1"
-                      min="0"
                       max="1"
                       step="0.01"
                     />
@@ -490,7 +478,6 @@ export default class Player extends Component {
             </div>
           </>
         )}
-        <audio ref={this.audio} hidden></audio>
       </div>
     );
   }
