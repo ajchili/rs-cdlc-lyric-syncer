@@ -24,7 +24,7 @@ export default class Player extends Component {
       (e) => {
         if (e.target instanceof HTMLCanvasElement) {
           e.preventDefault();
-          if (e.deltaY < 0) {
+          if (e.deltaY > 0) {
             this.zoomOut();
           } else {
             this.zoomIn();
