@@ -13,7 +13,6 @@ export default class Player extends Component {
       importedLyrics: [],
       instance: null,
       currentLyric: null,
-      playButtonText: "Play",
       playbackSpeed: 1,
     };
     this.audio = React.createRef();
@@ -105,13 +104,6 @@ export default class Player extends Component {
       });
 
       instance.on("points.dblclick", this.editLyric);
-
-      document.querySelector('input[data-action="change-volume"]').onchange =
-        this.changeVolume;
-
-      document.querySelector(
-        'input[data-action="change-playback-speed"]'
-      ).onchange = this.changePlaybackSpeed;
     });
   };
 
@@ -317,28 +309,8 @@ export default class Player extends Component {
     if (!wasPaused) instance.player.play();
   };
 
-  changeVolume = () => {
-    const { instance } = this.state;
-    if (instance === null) {
-      return;
-    }
-    const volume =
-      parseFloat(
-        document.querySelector('input[data-action="change-volume"]').value
-      ) || 0;
-    this.audio.current.volume = volume;
-  };
-
-  changePlaybackSpeed = () => {
-    const { instance } = this.state;
-    if (instance === null) {
-      return;
-    }
-    const playbackSpeed =
-      parseFloat(
-        document.querySelector('input[data-action="change-playback-speed"]')
-          .value
-      ) || 1;
+  changePlaybackSpeed = (e) => {
+    const playbackSpeed = parseFloat(e.target.value) || 1;
     this.audio.current.playbackRate = playbackSpeed;
     this.setState({ playbackSpeed });
   };
@@ -349,10 +321,7 @@ export default class Player extends Component {
       return;
     }
     const wasPaused = this.audio.current.paused;
-    this.setState({
-      currentLyric: null,
-      playButtonText: wasPaused ? "Pause" : "Play",
-    });
+    this.setState({ currentLyric: null });
     if (wasPaused) {
       instance.player.play();
     } else {
@@ -389,13 +358,8 @@ export default class Player extends Component {
 
   render() {
     const { media, toggleImportView } = this.props;
-    const {
-      importedLyrics,
-      instance,
-      currentLyric,
-      playButtonText,
-      playbackSpeed,
-    } = this.state;
+    const { importedLyrics, instance, currentLyric, playbackSpeed } =
+      this.state;
 
     return (
       <div className="uk-card uk-card-default uk-card-body">
@@ -454,8 +418,9 @@ export default class Player extends Component {
                       type="range"
                       defaultValue="1"
                       min="0.25"
-                      max="1"
+                      max="2"
                       step="0.01"
+                      onChange={this.changePlaybackSpeed}
                     />
                   </div>
                 </div>
