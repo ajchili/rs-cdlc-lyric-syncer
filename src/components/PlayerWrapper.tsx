@@ -26,13 +26,15 @@ export const PlayerWrapper = () => {
           toggleImportView={() =>
             setShowLyricsImporter((prevValue) => !prevValue)
           }
-          resetLyrics={() => {
+          resetLyrics={(callback: () => void) => {
             setLyrics([]);
             setShowLyricsImporter(false);
+            callback();
           }}
-          resetPoints={() => {
+          resetPoints={(callback: () => void) => {
             setPoints([]);
             setShowLyricsImporter(false);
+            callback();
           }}
         />
       </div>
