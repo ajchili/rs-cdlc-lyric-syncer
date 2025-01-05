@@ -41,7 +41,13 @@ export default class Player extends Component {
   }
 
   componentDidUpdate() {
-    const { lyrics = [], points = [], resetLyrics, resetPoints } = this.props;
+    const {
+      lyrics = [],
+      points = [],
+      resetLyrics,
+      resetPoints,
+      media,
+    } = this.props;
     if (points.length > 0) {
       resetPoints(() => {
         const { instance } = this.state;
@@ -52,6 +58,11 @@ export default class Player extends Component {
       resetLyrics(() => {
         this.setState({ importedLyrics: lyrics }, this.resizeView);
       });
+    } else if (
+      this.audio.current !== undefined &&
+      media.url !== this.audio.current.src
+    ) {
+      this.initializePeaks();
     }
   }
 
