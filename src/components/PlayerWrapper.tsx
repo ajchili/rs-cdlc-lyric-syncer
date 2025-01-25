@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import LyricsImporter from "./LyricsImporter";
-import Player from "./Player";
 import { useMedia } from "../contexts/MediaContext";
+
+const Player = lazy(() => import("./Player"));
 
 // Temporary component to help with migration to typescript
 export const PlayerWrapper = () => {
@@ -19,24 +20,26 @@ export const PlayerWrapper = () => {
   return (
     <div uk-grid="true" className="uk-margin-top">
       <div className="uk-width-expand">
-        <Player
-          lyrics={lyrics}
-          media={media}
-          points={points}
-          toggleImportView={() =>
-            setShowLyricsImporter((prevValue) => !prevValue)
-          }
-          resetLyrics={(callback: () => void) => {
-            setLyrics([]);
-            setShowLyricsImporter(false);
-            callback();
-          }}
-          resetPoints={(callback: () => void) => {
-            setPoints([]);
-            setShowLyricsImporter(false);
-            callback();
-          }}
-        />
+        <Suspense>
+          <Player
+            lyrics={lyrics}
+            media={media}
+            points={points}
+            toggleImportView={() =>
+              setShowLyricsImporter((prevValue) => !prevValue)
+            }
+            resetLyrics={(callback: () => void) => {
+              setLyrics([]);
+              setShowLyricsImporter(false);
+              callback();
+            }}
+            resetPoints={(callback: () => void) => {
+              setPoints([]);
+              setShowLyricsImporter(false);
+              callback();
+            }}
+          />
+        </Suspense>
       </div>
       {showLyricsImporter && (
         <div className="uk-width-1-3 uk-grid-item-match">
