@@ -35,7 +35,7 @@ export const AudioSourceSelector = () => {
       <input
         ref={ref}
         type="file"
-        accept="audio/*"
+        accept="audio/*,.wav,.mp3"
         onChange={(e) => onChange(e)}
         hidden
       />
